@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Sarala:regular,700'>
+<style>
+body{
+  background-image: url('https://source.unsplash.com/category/nature');
+  background-position: middle;
+  background-size: 380%;
+  font-family: 'Sarala', sans-serif;
+  margin: 0 auto;
+  margin-top: 10%;
+  max-width: 80%;
+  min-width: 300px;
+  text-align: center;
+}
+h1{
+  color: #fff;
+  text-shadow: 0px 1px 5px rgba(20, 20, 20, 1);
+}
+#searchTextField{
+  border: 3px solid #ddd;
+  font-size: 2em;
+  padding: 8px;
+  width: 100%;
+  -webkit-box-shadow: 0px 4px 10px -3px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 4px 10px -3px rgba(0,0,0,0.75);
+  box-shadow: 0px 4px 10px -3px rgba(0,0,0,0.75);
+}
+#info{
+  background: #eee;
+  background-position: center;
+  background-size: 100%;
+  border: 1px solid #ddd;
+  height: 400px;
+  padding: 10px;
+  position: relative;
+  width: 100%;
+  -webkit-box-shadow: 0px 4px 10px -3px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 4px 10px -3px rgba(0,0,0,0.75);
+  box-shadow: 0px 4px 10px -3px rgba(0,0,0,0.75);
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+#info:hover{
+  background-size: 120%;
+}
+#info a{
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+#latlng{
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-top: 330px;
+  padding: 5px;
+  text-align: center;
+  -webkit-box-shadow: 0px 4px 10px -3px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 4px 10px -3px rgba(0,0,0,0.75);
+  box-shadow: 0px 4px 10px -3px rgba(0,0,0,0.75);
+}
+
+@media (min-width: 768px){
+  body{
+    background-size: 180%;
+    max-width: 700px;
+  }
+}
+</style>
+</head>
+<body>
+<h1>Google Maps Autocomplete Sample</h1>
+<input id="searchTextField" type="text" placeholder="Enter a location" autocomplete="off">
+<div id="info">
+  <a href="#" target="_blank" title="View on Google Maps"></a>
+  <div id="latlng">Coordinates</div>
+</div>
+<script src='http://maps.googleapis.com/maps/api/js?libraries=places'></script>
+<script>
+var a, lat, long;
+var markerimg = 'http://i.imgur.com/Qwv4lBZ.png';
+function initialize() {
+    document.getElementById('info').style.backgroundImage = 'url(http://maps.googleapis.com/maps/api/staticmap?center=toronto&zoom=15&scale=1&size=700x420&maptype=roadmap&format=png&visual_refresh=true&markers=icon:' + markerimg + '%7Cshadow:true%7Ctoronto)';
+    var searchBox = document.getElementById('searchTextField');
+    var defaultBounds = new google.maps.LatLngBounds(new google.maps.LatLng(43.7182713, -79.3777061));
+    var input = document.getElementById('searchTextField');
+    var autocomplete = new google.maps.places.Autocomplete(searchBox, defaultBounds);
+    google.maps.event.addListener(autocomplete, 'place_changed', function () {
+        var place = autocomplete.getPlace();
+        a = place.formatted_address;
+        lat = place.geometry.location.lat();
+        long = place.geometry.location.lng();
+        document.getElementById('latlng').innerHTML = 'Coordinates: ' + lat + ' , ' + long;
+        document.getElementById('info').style.backgroundImage = 'url(http://maps.googleapis.com/maps/api/staticmap?center=' + lat + ',' + long + '&zoom=15&scale=1&size=700x420&maptype=roadmap&format=png&visual_refresh=true&markers=icon:' + markerimg + '%7Cshadow:true%7C' + lat + ',' + long + ')';
+    });
+}
+;
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+</body>
+</html>
